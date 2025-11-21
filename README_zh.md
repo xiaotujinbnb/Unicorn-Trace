@@ -2,6 +2,8 @@
 
 [简体中文](./README_zh.md)
 
+<video controls src="imgs/1.mp4" title="Title"></video>
+
 本项目提供了一套轻量级的基于 Unicorn 引擎的 ARM64 动态追踪模拟工具，支持在 IDA Pro 中作为插件运行或独立执行。本工具与 IDA 紧密集成，确保执行过程与 IDA 一致，避免出错；提供可靠的模拟执行再现能力，并生成美观的 Tenet 日志用于调试分析。主要功能包括动态代码模拟、内存转储、寄存器状态追踪和指令级日志记录。
 
 本工具无需全量 dump 内存，只在运行过程中按需动态 dump 内存因此效率和速度都很高，再加上过程检查能确保整个获取过程都是完善无误的。作为 trace 工具，该工具在 vm 分析中相当有用，适用性和速率都很好。但在外部调用非常多且密集的用户函数，效率会受到很大影响，后续可能会针对此进行优化
@@ -69,6 +71,9 @@ ida 调试到指定位置后，写入期望的运行地址，会自动运行且�
 
 
 ### 功能二：独立模拟器使用
+
+![alt text](imgs/2.gif)
+
 ```python
 from unicorn_trace import SelfRunArm64Emulator
 
@@ -100,6 +105,7 @@ emulator.custom_main_trace(
 
 3. **日志分析，离线模拟执行**：
 
+![alt text](imgs/3.gif)
 
 ## 注意事项
 
