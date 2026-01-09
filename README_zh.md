@@ -16,7 +16,7 @@
   - 支持 Tenet 兼容的追踪日志
   - 错误处理（内存访问异常、范围检查等）
 
-- **独立模拟器** (`unicorn_trace.py`)
+- **独立模拟器** (`local_emu.py`)
   - 从文件加载内存映射和寄存器状态
   - 自定义模拟范围
   - 生成详细执行日志（`uc.log` 和 `tenet.log`）
@@ -33,7 +33,7 @@
 ```
 .
 ├── dyn_trace_ida.py              # IDA 插件版本
-├── unicorn_trace.py              # 独立模拟器
+├── local_emu.py              # 独立模拟器
 ├── unicorn_trace/                # 模拟器核心
 │   └── unicorn_class.py          # ARM64 模拟器基类
 ├── single_script/                # 实用脚本
@@ -90,7 +90,7 @@ ida 调试到指定位置后，写入期望的运行地址，会自动运行且�
 
 #### 使用 `run_once` 函数（推荐）：
 ```python
-from unicorn_trace import run_once
+from local_emu import run_once
 
 if __name__ == "__main__":
     result = run_once(
@@ -121,15 +121,15 @@ result = emulator.custom_main_trace(
 
 ### 功能三：追踪全部流程
 
-当处理包含多个外部函数调用的代码时，插件会为每个执行片段创建单独的 dump 文件夹。`unicorn_trace.py` 中的 `run_all_continuous` 函数允许您按顺序执行所有这些片段，跳过外部调用并合并追踪日志。
+当处理包含多个外部函数调用的代码时，插件会为每个执行片段创建单独的 dump 文件夹。`local_emu.py` 中的 `run_all_continuous` 函数允许您按顺序执行所有这些片段，跳过外部调用并合并追踪日志。
 
 你可以直接把它当黑盒用，直接可以模拟执行全部流程
 
 #### 使用示例：
 
 ```python
-# 在 unicorn_trace.py 或您自己的脚本中
-from unicorn_trace import run_all_continuous
+# 在 local_emu.py 或您自己的脚本中
+from local_emu import run_all_continuous
 
 # 按时间顺序执行所有 dump 文件夹
 success = run_all_continuous(
@@ -167,7 +167,7 @@ else:
 
 2. **分析 trace，生成 tenet log**：
 
-使用 `unicorn_trace.py` 生成 tenet.log，组合所有 log
+使用 `local_emu.py` 生成 tenet.log，组合所有 log
 
 3. **日志分析，离线模拟执行**：
 
@@ -244,7 +244,7 @@ IDA 集成模拟器类（插件使用）。
 ## TODO
 
 ### 已完成
-- ✓ **连续执行**：在 `unicorn_trace.py` 中添加了 `run_all_continuous` 函数，可按顺序执行多个 dump 文件夹，跳过外部调用并合并追踪日志
+- ✓ **连续执行**：在 `local_emu.py` 中添加了 `run_all_continuous` 函数，可按顺序执行多个 dump 文件夹，跳过外部调用并合并追踪日志
 - ✓ **提升效率**：中间 dump mem 后接着后续运行而不是重新开始
 
 ### 进行中 / 未来改进

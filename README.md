@@ -16,7 +16,7 @@ The tool doesn't require full memory dumps, instead dynamically dumping memory o
   - Support Tenet-compatible trace logs
   - Error handling (memory access exceptions, range checks, etc.)
 
-- **Standalone Emulator** (`unicorn_trace.py`)
+- **Standalone Emulator** (`local_emu.py`)
   - Load memory maps and register states from files
   - Custom simulation ranges
   - Generate detailed execution logs (`uc.log` and `tenet.log`)
@@ -33,7 +33,7 @@ The tool doesn't require full memory dumps, instead dynamically dumping memory o
 ```
 .
 ├── dyn_trace_ida.py              # IDA plugin version
-├── unicorn_trace.py              # Standalone emulator
+├── local_emu.py              # Standalone emulator
 ├── unicorn_trace/                # Emulator core
 │   └── unicorn_class.py          # ARM64 emulator base class
 ├── single_script/                # Utility scripts
@@ -86,7 +86,7 @@ Run a single dump section.
 
 #### Using `run_once` function (recommended):
 ```python
-from unicorn_trace import run_once
+from local_emu import run_once
 
 if __name__ == "__main__":
     result = run_once(
@@ -115,13 +115,13 @@ result = emulator.custom_main_trace(
 ```
 
 ### Feature 3: Simulate The Whole Process
-When dealing with code that contains multiple external function calls, the plugin creates separate dump folders for each execution segment. The `run_all_continuous` function in `unicorn_trace.py` allows you to execute all these segments in order, skipping external calls and merging the trace logs.
+When dealing with code that contains multiple external function calls, the plugin creates separate dump folders for each execution segment. The `run_all_continuous` function in `local_emu.py` allows you to execute all these segments in order, skipping external calls and merging the trace logs.
 
 #### Usage Example:
 
 ```python
-# In unicorn_trace.py or your own script
-from unicorn_trace import run_all_continuous
+# In local_emu.py or your own script
+from local_emu import run_all_continuous
 
 # Execute all dump folders in chronological order
 success = run_all_continuous(
@@ -156,7 +156,7 @@ Also see [Kanxue Article](https://bbs.kanxue.com/thread-289135.htm)
 Use plugin or script to run to end position
 
 2. **Analyze Trace, Generate Tenet Log**:
-Use `unicorn_trace.py` to generate tenet.log and combine all logs
+Use `local_emu.py` to generate tenet.log and combine all logs
 
 3. **Log Analysis, Offline Simulation**:
 
@@ -234,7 +234,7 @@ Welcome to submit Issues or Pull Requests. Please ensure:
 ## TODO
 
 ### Completed
-- ✓ **Continuous execution**: Added `run_all_continuous` function in `unicorn_trace.py` to execute multiple dump folders in order, skip external calls, and merge trace logs
+- ✓ **Continuous execution**: Added `run_all_continuous` function in `local_emu.py` to execute multiple dump folders in order, skip external calls, and merge trace logs
 - ✓ **Improve efficiency**: Continue execution after mid-process memory dumps instead of restarting
 
 ### In Progress / Future Improvements
